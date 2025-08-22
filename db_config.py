@@ -2,10 +2,10 @@ import mysql.connector
 
 def get_connection():
     return mysql.connector.connect(
-        host="localhost",
+        host="127.0.0.1",
         user="root",
         password="Srii@773",
-        database="data"
+        database="datas"
     )
 
 def create_user_table():
@@ -14,10 +14,12 @@ def create_user_table():
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS users (
             id INT AUTO_INCREMENT PRIMARY KEY,
-            username VARCHAR(100) NOT NULL,
+            username VARCHAR(100) NOT NULL UNIQUE,
+            email VARCHAR(100) NOT NULL UNIQUE,
             password VARCHAR(100) NOT NULL
         );
     """)
     conn.commit()
     cursor.close()
     conn.close()
+    

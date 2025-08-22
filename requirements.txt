@@ -1,2 +1,5 @@
 streamlit
 mysql-connector-python
+gTTS
+python-docx
+PyMuPDF
