@@ -130,7 +130,7 @@ elif st.session_state["page"] == "Dashboard":
                             mime="audio/mp3",
                             key=f"download_{audio_filename}"
                         )
-
+                        
         st.subheader(" Your Stored Audio Files")
         files = [f for f in os.listdir(user_dir) if f.endswith(".mp3")]
         if files:
@@ -140,7 +140,7 @@ elif st.session_state["page"] == "Dashboard":
                 with open(file_path, "rb") as f:
                     st.download_button(
                         f" Download {file}",
-                        f,
+                        f, 
                         file_name=file,
                         mime="audio/mp3",
                         key=f"stored_download_{i}"
@@ -154,5 +154,4 @@ elif st.session_state["page"] == "Dashboard":
             st.success("Signed out successfully!")
             st.rerun()
     else:
-        st.warning("Please log in to view the dashboard.")
-        
+        st.warning("Please log in to view the dashbord.")
