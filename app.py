@@ -15,12 +15,26 @@ os.makedirs(STORAGE_DIR, exist_ok=True)
 def signup(username, email, password):
     conn = get_connection()
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO users (username,email,password) VALUES (%s,%s,%s)", (username,email,password))
-    conn.commit()
+
+    cursor.execute("SELECT * FROM users WHERE username = %s OR email = %s", (username, email))
+    existing_user = cursor.fetchone()
+
+    if existing_user:
+        if existing_user[1] == username:   
+            st.error(" Username already exists. Please choose another.")
+        elif existing_user[2] == email:
+            st.error(" Email already registered. Please log in instead.")
+    else:
+        cursor.execute(
+            "INSERT INTO users (username, email, password) VALUES (%s,%s,%s)", 
+            (username, email, password)
+        )
+        conn.commit()
+        st.success(" Signup successful! Please log in.")
+        st.session_state["page"] = "Login"
+
     cursor.close()
     conn.close()
-    st.success("Signup successful! Please log in.")
-    st.session_state["page"] = "Login"
 
 
 def login(username, password):
@@ -31,6 +45,7 @@ def login(username, password):
     cursor.close()
     conn.close()
     return result
+
 
 def extract_text(uploaded_file):
     """Extract text from txt, pdf, or docx"""
@@ -52,6 +67,7 @@ def extract_text(uploaded_file):
 
     else:
         return None
+
 
 if "page" not in st.session_state:
     st.session_state["page"] = "Signup"
@@ -101,7 +117,11 @@ elif st.session_state["page"] == "Dashboard":
         user_dir = os.path.join(STORAGE_DIR, username)
         os.makedirs(user_dir, exist_ok=True)
 
-        uploaded_files = st.file_uploader("Upload text/PDF/DOCX files",type=["txt", "pdf", "docx"], accept_multiple_files=True)
+        uploaded_files = st.file_uploader(
+            "Upload text/PDF/DOCX files",
+            type=["txt", "pdf", "docx"], 
+            accept_multiple_files=True
+        )
         if uploaded_files:
             for uploaded_file in uploaded_files:
                 text = extract_text(uploaded_file)
@@ -109,7 +129,12 @@ elif st.session_state["page"] == "Dashboard":
                     st.error(f" Could not read {uploaded_file.name}")
                     continue
 
-                st.text_area(f"{uploaded_file.name}", text[:2000], height=150, key=f"text_{uploaded_file.name}")
+                st.text_area(
+                    f"{uploaded_file.name}", 
+                    text[:2000], 
+                    height=150, 
+                    key=f"text_{uploaded_file.name}"
+                )
 
                 if st.button(f"Convert {uploaded_file.name}", key=f"convert_{uploaded_file.name}"):
                     timestamp = int(time.time())
@@ -154,4 +179,4 @@ elif st.session_state["page"] == "Dashboard":
             st.success("Signed out successfully!")
             st.rerun()
     else:
-        st.warning("Please log in to view the dashbord.")
+        st.warning("Please log in to view the dashboard.")
