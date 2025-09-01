@@ -5,7 +5,7 @@ def get_connection():
         host="98.86.9.11",
         user="root",
         password="Srii@773",
-        database="data"
+        database="datas"
     )
 
 def create_user_table():
