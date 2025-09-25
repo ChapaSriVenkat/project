@@ -1,4 +1,4 @@
- import mysql.connector
+import mysql.connector
 import bcrypt
 import jwt
 import datetime
