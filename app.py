@@ -2,7 +2,7 @@ import streamlit as st
 from db_config import get_connection, create_user_table
 import sqlite3
 import bcrypt
-import jwt
+import jwt 
 import pyttsx3
 import os
 import time
