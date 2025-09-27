@@ -1,7 +1,7 @@
- import mysql.connector
+import mysql.connector
 import bcrypt
 import jwt
-import datetime
+import datetime 
 
 def get_connection():
     return mysql.connector.connect(
