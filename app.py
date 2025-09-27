@@ -220,7 +220,7 @@ elif st.session_state["page"] == "Dashboard":
                     status_text = st.empty()
 
                     est_time = max(1, len(text) // 500)
-                    st.info(f" Estimated conversion time: {est_time + 5} seconds ")
+                    st.info(f" Estimated conversion time: {est_time + 5} miutes ")
 
                     conv_start = time.time()
                     with st.spinner(" Converting text to speech... Please wait"):
