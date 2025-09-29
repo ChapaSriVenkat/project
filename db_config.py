@@ -5,7 +5,7 @@ import datetime
 
 def get_connection():
     return mysql.connector.connect(
-        host="98.86.9.11",
+        host="34.200.59.62",
         user="root",
         password="Srii@773",
         database="date"
