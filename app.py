@@ -7,14 +7,14 @@ import docx
 import fitz
 import jwt
 import datetime
+from io import BytesIO
 
 # Secret key for JWT
 SECRET_KEY = "your_secret_key_here"
 
 st.set_page_config(page_title="Text to Speech App", layout="wide")
 
-# Ensure users table exists (assumes db_config.create_user_table creates users table with columns:
-# id, username, email, password, Jwt  — adjust your DB schema accordingly)
+# Ensure users table exists (id, username, email, password, Jwt)
 create_user_table()
 
 STORAGE_DIR = "user_files"
@@ -122,8 +122,7 @@ def extract_text(uploaded_file):
         return text
 
     elif ext == ".docx":
-        # docx.Document accepts a file-like object
-        doc = docx.Document(uploaded_file)
+        doc = docx.Document(BytesIO(uploaded_file.read()))
         return "\n".join([p.text for p in doc.paragraphs])
 
     else:
