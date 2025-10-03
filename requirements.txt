@@ -3,3 +3,5 @@ mysql-connector-python
 gTTS
 python-docx
 PyMuPDF
+PyJWT
+pandas
